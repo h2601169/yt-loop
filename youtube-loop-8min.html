@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YouTube 8분 반복 재생</title>
+<style>
+  html,body{margin:0;height:100%;background:#000;color:#fff;font-family:sans-serif}
+  #wrap{position:relative;width:100%;max-width:1280px;margin:0 auto;aspect-ratio:16/9}
+  #player{position:absolute;inset:0;width:100%;height:100%}
+  p{text-align:center;font-size:14px;opacity:.7}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="player"></div></div>
+<p>8:00부터 재생하고, 끝나면 다시 8:00부터 반복해요.</p>
+<script>
+  var VIDEO_ID = 'UqY40Cw1_pg';
+  var START = 480;
+  var player;
+  var tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      videoId: VIDEO_ID,
+      playerVars: { start: START, autoplay: 1, playsinline: 1, rel: 0 },
+      events: {
+        onReady: function (e) { e.target.seekTo(START, true); e.target.playVideo(); },
+        onStateChange: function (e) {
+          if (e.data === YT.PlayerState.ENDED) { player.seekTo(START, true); player.playVideo(); }
+        }
+      }
+    });
+  }
+</script>
+</body>
+</html>
